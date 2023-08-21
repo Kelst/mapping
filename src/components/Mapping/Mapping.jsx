@@ -9,7 +9,10 @@ import ButtomCustom from '../ButtomCustom/ButtomCustom';
 import LoaderData from '../loaderData/LoaderData';
 import ListComponent from '../ListComponent/ListComponent';
 import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 export default function Mapping() {
+  const navigate=useNavigate()
+
   const [loading, setLoading] = React.useState(false);
 
   const [ipValue,setIpValue]=useState('188.191.238.1');

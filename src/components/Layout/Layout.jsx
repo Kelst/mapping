@@ -1,7 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 import Logo from '../../assets/logo.svg';
+import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
+
 export default function Layout() {
+  const navigate=useNavigate()
+  useEffect(()=>{
+    const cookieData = Cookies.get('login');
+    if (!cookieData) {
+      navigate("/login")
+   
+    }
+  },[])
   return (
     <div>
         <nav className='pb-1 mx-2 mt-2 mb-12 relative rounded-xl  bg-sky-500/[.06] border-white border-b border-x  shadow-lg shadow-white 	'>
