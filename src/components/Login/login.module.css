@@ -1,0 +1,21 @@
+.container{
+     @apply flex items-center justify-center w-screen h-screen bg-black
+     
+}
+input[type="text"] {
+  
+    color: #ffe;
+    }
+
+.form{
+    @apply flex flex-col bg-gray-600  shadow-white  p-32 rounded-lg shadow-xl gap-6
+}
+
+
+.input{
+    margin-top: 200px;
+    @apply mb-11 text-center text-white 
+}
+.button{
+    color: white;
+}
