@@ -18,14 +18,13 @@ function ListComponent({abons,ip,width=600,checkIpBiling}) {
                     <table class="w-full">
                         <tbody class="">
                             {abons.length>0?
-                            abons.map(e=>{
+                            abons.map((e,i)=>{
 
-                                if(checkIpBiling){
+                            
                                     
-                                    return <ListItem  key={e.uid} login={e.id} ip={ip} fio={e.fio} time={e.datetime } />
+                                    return <ListItem  key={i} login={e.id} ip={ip} fio={e.fio} time={e.datetime } />
 
-                                }else
-                                return <ListItem  key={e.uid} login={e.id} ip={ip} fio={e.fio} time={e.time} />
+                                
                             })
                             :""}
                         

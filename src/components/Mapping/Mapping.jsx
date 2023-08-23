@@ -10,6 +10,7 @@ import LoaderData from '../loaderData/LoaderData';
 import ListComponent from '../ListComponent/ListComponent';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
+
 export default function Mapping() {
   const navigate=useNavigate()
 
@@ -25,6 +26,26 @@ export default function Mapping() {
   const [checkIpBiling,setCheckIpBiling]=useState(false)
   const [white_ip_id,setWhite_ip_id]=useState(1)
   const [abons,setAbons]=useState([])
+  async function handleDownloadDate() {
+    setLoading(true)
+      try {
+        const response = await axios.post('http://194.8.147.150:3010/download',{abons:abons,ip:ipValue}, {
+          responseType: 'blob',
+        });
+        setLoading(false)
+  
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'abons.xlsx');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link); // Видалити елемент після завантаження
+      } catch (error) {
+        console.error('Error downloading file:', error);
+      }
+      
+    }
   async function fetchTables() {
     try {
        let resp=await axios.get("http://194.8.147.150:3010/showTable")
@@ -62,6 +83,7 @@ if(!isIPAddress(ipValue)){
 }
  let resp=await axios.get(`http://194.8.147.150:3010/check-white-ip?white_ip=${ipValue}`)
  let data=resp.data
+ console.log(data);
  if(data.length==0){
   setAlertInfo("В таблиці ip_white не знайдено IP")
   setOpen(true)
@@ -87,7 +109,8 @@ if(!isIPAddress(ipValue)){
     let resp=await axios(`http://194.8.147.150:3010/checkIpByDate?startDate=${startDate}&endDate=${endDate}&id=${white_ip_id}`)
     let data=resp.data
     setLoading(false)
-    setAbons(data)
+    console.log(data);
+     setAbons(data)
     if(data.length==0){
       setAlertInfo("В цей час не було користування IP")
       setOpen(true) 
@@ -161,7 +184,12 @@ setLoading(false)
           </div>
           }
           <ListComponent abons={abons} ip={ipValue} checkIpBiling={checkIpBiling} />
+         {
+         abons.length>0&& 
+          <ButtomCustom text={"Download"} handleFind={handleDownloadDate} />
+         }
        </div>
+      
     <AlertInfo open={open} handleClose={handleClose} text={alertInfo}/>
     </div>
   )
